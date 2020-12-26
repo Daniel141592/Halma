@@ -1,23 +1,31 @@
+from player import Player
+
+
 class Pawn():
     """
     Class representing a pawn
     """
-    def __init__(self, x, y, color):
-        self.move(x, y)
-        self._color = color
+    def __init__(self, owner: 'Player' = None):
+        self._owner = owner
         self._transferred_to_opponent_camp = False
+        self._is_empty = owner is None
 
-    def get_x(self):
-        return self._x
+    def __str__(self):
+        if self._is_empty:
+            return '_'
+        return self._owner.get_name()[0:1]
 
-    def get_y(self):
-        return self._y
+    def __repr__(self):
+        return self.__str__()
 
-    def get_position(self):
-        return self.get_x(), self.get_y()
+    def get_owner(self):
+        return self._owner
+
+    def is_empty(self):
+        return self._is_empty
 
     def get_color(self):
-        return self._color
+        return self._owner.get_color()
 
     def is_transferred_to_opponent_camp(self):
         return self._transferred_to_opponent_camp
@@ -27,7 +35,3 @@ class Pawn():
             self._transferred_to_opponent_camp = True
         else:
             self._transferred_to_opponent_camp = transferred
-
-    def move(self, x, y):
-        self._x = x
-        self._y = y

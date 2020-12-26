@@ -1,0 +1,5 @@
+NUM_OF_PLAYERS = 2
+NUM_OF_PAWNS = 19
+CAMP_WIDTH = 5
+BOARD_WIDTH = 16
+COLORS = ["white", "black"]
