@@ -7,6 +7,7 @@ def test_creating_pawn():
     color = "black"
     player = Player(color, Corner.TOP_LEFT)
     pawn = Pawn(player)
+    assert pawn.get_owner() == player
     assert pawn.get_color() == color
     assert not pawn.is_empty()
 
@@ -26,12 +27,6 @@ def test_repr():
     player = Player("white", Corner.BOTTOM_LEFT, "some player")
     pawn = Pawn(player)
     assert repr(pawn) == "s"
-
-
-def test_get_owner():
-    player = Player("black", Corner.BOTTOM_LEFT)
-    pawn = Pawn(player)
-    assert pawn.get_owner() == player
 
 
 def test_transferred_to_opponent_camp():

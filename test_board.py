@@ -2,6 +2,7 @@ from board import Board
 from player import Player
 from pawn import Pawn
 from corners import Corner
+from constants import BOARD_WIDTH
 from incorrect_move_exception import IncorrectMoveException
 
 import pytest
@@ -10,12 +11,20 @@ import pytest
 def test_creating_board_and_arrange_pawns():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
-    board = Board([player_1, player_2])
-    assert board.get_squares()[0][0].get_owner() == player_1
-    assert board.get_squares()[2][2].get_owner() == player_1
+    players = [player_1, player_2]
+    board = Board(players)
+
+    assert len(board.get_squares()) == BOARD_WIDTH
+    assert all(len(row) == BOARD_WIDTH for row in board.get_squares())
+
+    for player in players:
+        coords = player.get_camp().get_coords()
+        for position in coords:
+            x, y = position
+            assert not board.get_squares()[y][x].is_empty()
+            assert board.get_squares()[y][x].get_owner() == player
+
     assert board.get_squares()[3][3].is_empty()
-    assert board.get_squares()[14][14].get_owner() == player_2
-    assert board.get_squares()[15][15].get_owner() == player_2
 
 
 def test__get_square():
@@ -27,6 +36,38 @@ def test__get_square():
     assert board._get_square((x, y)) == board.get_squares()[y][x]
 
 
+def test__get_square_negative_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._get_square((-2, 3))
+
+
+def test__get_square_incorrect_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._get_square((22, 3))
+
+
+def test__get_square_wrong_type_of_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._get_square((2.6, 3))
+
+
+def test__get_square_wrong_type_of_index_2():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._get_square(("abc", 3))
+
+
 def test__set_square():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
@@ -35,6 +76,46 @@ def test__set_square():
     board = Board([player_1, player_2])
     board._set_square(position, pawn)
     assert board._get_square(position) == pawn
+
+
+def test__set_square_negative_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    position = -2, 3
+    pawn = Pawn(player_1)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._set_square(position, pawn)
+
+
+def test__set_square_incorrect_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    position = 2, 33
+    pawn = Pawn(player_1)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._set_square(position, pawn)
+
+
+def test__set_square_wrong_type_of_index():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    position = 2, 3.5
+    pawn = Pawn(player_1)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._set_square(position, pawn)
+
+
+def test__set_square_wrong_type_of_index_2():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    position = 2, "abc"
+    pawn = Pawn(player_1)
+    board = Board([player_1, player_2])
+    with pytest.raises(IncorrectMoveException):
+        board._set_square(position, pawn)
 
 
 def test__move_pawn():

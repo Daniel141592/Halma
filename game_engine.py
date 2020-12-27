@@ -29,6 +29,9 @@ class GameEngine():
     def get_board(self):
         return self._board.get_squares()
 
+    def get_players(self):
+        return self._players
+
     def get_now_turn(self):
         return self._now_turn
 

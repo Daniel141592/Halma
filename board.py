@@ -13,12 +13,22 @@ class Board():
         self._arrange_pawns(players)
 
     def _get_square(self, position):
-        x, y = position
-        return self._squares[y][x]
+        try:
+            x, y = position
+            if x < 0 or y < 0:
+                raise IncorrectMoveException("Value cannot be negative")
+            return self._squares[y][x]
+        except (TypeError, IndexError):
+            raise IncorrectMoveException("Incorrect index of square")
 
     def _set_square(self, position, pawn):
-        x, y = position
-        self._squares[y][x] = pawn
+        try:
+            x, y = position
+            if x < 0 or y < 0:
+                raise IncorrectMoveException("Value cannot be negative")
+            self._squares[y][x] = pawn
+        except (TypeError, IndexError):
+            raise IncorrectMoveException("Incorrect index of square")
 
     def get_squares(self):
         return self._squares
