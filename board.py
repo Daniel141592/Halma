@@ -11,6 +11,7 @@ class Board():
     def __init__(self, players):
         self._squares = [[Pawn()] * BOARD_WIDTH for _ in range(BOARD_WIDTH)]
         self._arrange_pawns(players)
+        self._cascade_jumps = False
 
     def _get_square(self, position):
         try:
@@ -33,6 +34,12 @@ class Board():
     def get_squares(self):
         return self._squares
 
+    def get_cascade_jumps(self):
+        return self._cascade_jumps
+
+    def set_cascade_jumps(self, value):
+        self._cascade_jumps = value
+
     def _arrange_pawns(self, players):
         for player in players:
             for position in player.get_camp().get_coords():
@@ -47,13 +54,31 @@ class Board():
         if not self._get_square(new_position).is_empty():
             raise IncorrectMoveException("This square is not free")
 
+        if self._is_jump(old_position, new_position):
+            self.set_cascade_jumps(True)
+
+        self._move_pawn(old_position, new_position)
+
+    def _is_jump(self, old_position, new_position):
         x_diff = abs(old_position[0] - new_position[0])
         y_diff = abs(old_position[1] - new_position[1])
 
-        if x_diff > 1 or y_diff > 1:
+        if x_diff > 2 or y_diff > 2:
             raise IncorrectMoveException("You cannot move so far")
+        if (x_diff in [0, 2]) and (y_diff in [0, 2]):
+            if self._get_square_between(old_position, new_position).is_empty():
+                raise IncorrectMoveException("There is nothing to jump over")
+            else:
+                return True
+        elif x_diff > 1 or y_diff > 1:
+            raise IncorrectMoveException("Incorrect jump")
 
-        self._move_pawn(old_position, new_position)
+        return False
+
+    def _get_square_between(self, a, b):
+        x = int((a[0] + b[0]) / 2)
+        y = int((a[1] + b[1]) / 2)
+        return self._get_square((x, y))
 
     def _move_pawn(self, old_position, new_position):
         self._set_square(new_position, self._get_square(old_position))

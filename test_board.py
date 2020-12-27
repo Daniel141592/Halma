@@ -118,6 +118,16 @@ def test__set_square_wrong_type_of_index_2():
         board._set_square(position, pawn)
 
 
+def test__get_square_between():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    position_a = (2, 2)
+    position_b = (4, 4)
+    square_between = board._get_square_between(position_a, position_b)
+    assert square_between == board._get_square((3, 3))
+
+
 def test__move_pawn():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
@@ -134,6 +144,17 @@ def test_make_move_correct_move():
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (5, 1)
+    board.make_move(player_1, old_position, new_position)
+    assert board._get_square(old_position).is_empty()
+    assert board._get_square(new_position).get_owner() == player_1
+
+
+def test_make_move_correct_jump():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    old_position = (3, 0)
+    new_position = (5, 0)
     board.make_move(player_1, old_position, new_position)
     assert board._get_square(old_position).is_empty()
     assert board._get_square(new_position).get_owner() == player_1
@@ -168,11 +189,39 @@ def test_make_move_to_already_taken_position():
         board.make_move(player_1, old_position, new_position)
 
 
-def test_make_move_incorrect_move():
+def test_is_jump():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    old_position = (3, 0)
+    new_position = (5, 0)
+    assert board._is_jump(old_position, new_position)
+
+
+def test__is_jump_single_move():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    old_position = (4, 0)
+    new_position = (5, 1)
+    assert not board._is_jump(old_position, new_position)
+
+
+def test_is_jump_nothing_to_jump_over():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    old_position = (4, 0)
+    new_position = (6, 0)
+    with pytest.raises(IncorrectMoveException):
+        board._is_jump(old_position, new_position)
+
+
+def test_is_jump_incorrect_move():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (8, 1)
     with pytest.raises(IncorrectMoveException):
-        board.make_move(player_1, old_position, new_position)
+        board._is_jump(old_position, new_position)

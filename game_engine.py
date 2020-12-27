@@ -13,7 +13,8 @@ class GameEngine():
     def __init__(self, players_names):
         self._players = self._initialize_players(players_names)
         self._board = Board(self._players)
-        self._now_turn = self._players[0]     # random.choice(players)
+        self._now_turn = random.choice(self._players)
+        self._winner = None
 
     def make_move(self, old_position, new_position):
         self._board.make_move(self._now_turn, old_position, new_position)
@@ -34,6 +35,9 @@ class GameEngine():
 
     def get_now_turn(self):
         return self._now_turn
+
+    def get_winner(self):
+        return self._winner
 
     def _initialize_players(self, players_names):
         players = []

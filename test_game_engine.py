@@ -1,6 +1,6 @@
 from game_engine import GameEngine
 from constants import COLORS
-from corners import corners_list
+from corners import Corner, corners_list
 
 
 def test_creating_game_engine():
@@ -10,7 +10,13 @@ def test_creating_game_engine():
     assert game.get_now_turn() in game._players
 
 
-def test_make_move():
+def test_make_move(monkeypatch):
+    def mock_choice(players):
+        for player in players:
+            if player.get_camp().get_corner() == Corner.TOP_LEFT:
+                return player
+    monkeypatch.setattr("game_engine.random.choice", mock_choice)
+
     players_names = ["player1", "player2"]
     game = GameEngine(players_names)
     player = game.get_now_turn()
