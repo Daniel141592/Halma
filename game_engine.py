@@ -2,6 +2,7 @@ from board import Board
 from player import Player
 from corners import corners_list
 from constants import NUM_OF_PLAYERS, COLORS
+from exceptions import IncorrectIndexException, IncorrectMoveException
 
 import random
 
@@ -17,8 +18,14 @@ class GameEngine():
         self._winner = None
 
     def make_move(self, old_position, new_position):
-        self._board.make_move(self._now_turn, old_position, new_position)
-        self._next_turn()
+        try:
+            if self.is_cascade_jumps():
+                self._board.check_cascade_jump(old_position, new_position)
+            self._board.make_move(self._now_turn, old_position, new_position)
+            if not self.is_cascade_jumps():
+                self._next_turn()
+        except IncorrectIndexException as e:
+            raise IncorrectMoveException(e.message)
 
     def _next_turn(self):
         now_turn_index = self._players.index(self._now_turn)
@@ -35,6 +42,13 @@ class GameEngine():
 
     def get_now_turn(self):
         return self._now_turn
+
+    def is_cascade_jumps(self):
+        return self._board.get_cascade_jumps_position() is not None
+
+    def end_cascade_jumps(self):
+        self._board.set_cascade_jumps_position(None)
+        self._next_turn()
 
     def get_winner(self):
         return self._winner

@@ -1,5 +1,5 @@
 from game_engine import GameEngine
-from incorrect_move_exception import IncorrectMoveException
+from exceptions import IncorrectMoveException
 from constants import NUM_OF_PLAYERS
 
 
@@ -15,9 +15,15 @@ def main():
     while game.get_winner() is None:
         display_board(game.get_board())
         print(f"Kolej gracza {game.get_now_turn().get_name()}")
+        if game.is_cascade_jumps():
+            print("Wpisz 'k', aby zakończyć sekwencję ruchów")
         try:
-            old_position, new_position = parse_input(input())
-            game.make_move(old_position, new_position)
+            user_input = input()
+            if game.is_cascade_jumps() and user_input.strip() == 'k':
+                game.end_cascade_jumps()
+            else:
+                old_position, new_position = parse_input(user_input)
+                game.make_move(old_position, new_position)
         except ValueError:
             print("Incorrect input")
         except IncorrectMoveException as e:

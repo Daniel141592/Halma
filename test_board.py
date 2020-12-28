@@ -3,7 +3,7 @@ from player import Player
 from pawn import Pawn
 from corners import Corner
 from constants import BOARD_WIDTH
-from incorrect_move_exception import IncorrectMoveException
+from exceptions import IncorrectMoveException, IncorrectIndexException
 
 import pytest
 
@@ -40,7 +40,7 @@ def test__get_square_negative_index():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._get_square((-2, 3))
 
 
@@ -48,7 +48,7 @@ def test__get_square_incorrect_index():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._get_square((22, 3))
 
 
@@ -56,7 +56,7 @@ def test__get_square_wrong_type_of_index():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._get_square((2.6, 3))
 
 
@@ -64,7 +64,7 @@ def test__get_square_wrong_type_of_index_2():
     player_1 = Player("white", Corner.TOP_LEFT)
     player_2 = Player("black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._get_square(("abc", 3))
 
 
@@ -84,7 +84,7 @@ def test__set_square_negative_index():
     position = -2, 3
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._set_square(position, pawn)
 
 
@@ -94,7 +94,7 @@ def test__set_square_incorrect_index():
     position = 2, 33
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._set_square(position, pawn)
 
 
@@ -104,7 +104,7 @@ def test__set_square_wrong_type_of_index():
     position = 2, 3.5
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._set_square(position, pawn)
 
 
@@ -114,7 +114,7 @@ def test__set_square_wrong_type_of_index_2():
     position = 2, "abc"
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
-    with pytest.raises(IncorrectMoveException):
+    with pytest.raises(IncorrectIndexException):
         board._set_square(position, pawn)
 
 
@@ -225,3 +225,48 @@ def test_is_jump_incorrect_move():
     new_position = (8, 1)
     with pytest.raises(IncorrectMoveException):
         board._is_jump(old_position, new_position)
+
+
+def test_check_cascade_jump_trying_to_move_another_pawn():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    cascade_jumps_position = (7, 7)
+    old_position = (3, 0)
+    new_position = (5, 0)
+    board.set_cascade_jumps_position(cascade_jumps_position)
+    with pytest.raises(IncorrectMoveException):
+        board.check_cascade_jump(old_position, new_position)
+
+
+def test_check_cascade_jump_is_not_a_jump():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    cascade_jumps_position = (7, 7)
+    old_position = cascade_jumps_position
+    new_position = (6, 8)
+    board.set_cascade_jumps_position(cascade_jumps_position)
+    with pytest.raises(IncorrectMoveException):
+        board.check_cascade_jump(old_position, new_position)
+
+
+def test__is_further_jump_possible_not_possible():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    old_position = (3, 0)
+    new_position = (5, 0)
+    board._move_pawn(old_position, new_position)
+    assert not board._is_further_jump_possible(old_position, new_position)
+
+
+def test__is_further_jump_possible():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    board = Board([player_1, player_2])
+    board._move_pawn((3, 2), (4, 2))
+    old_position = (1, 1)
+    new_position = (3, 3)
+    board._move_pawn(old_position, new_position)
+    assert board._is_further_jump_possible(old_position, new_position)
