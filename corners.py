@@ -11,3 +11,10 @@ class Corner(Enum):
 corners_list = [
     Corner.TOP_LEFT, Corner.BOTTOM_RIGHT, Corner.TOP_RIGHT, Corner.BOTTOM_LEFT
 ]
+
+opposite_corner = {
+    Corner.TOP_LEFT: Corner.BOTTOM_RIGHT,
+    Corner.TOP_RIGHT: Corner.BOTTOM_LEFT,
+    Corner.BOTTOM_RIGHT: Corner.TOP_LEFT,
+    Corner.BOTTOM_LEFT: Corner.TOP_RIGHT
+}

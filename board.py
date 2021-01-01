@@ -109,5 +109,13 @@ class Board():
         self._set_square(new_position, self._get_square(old_position))
         self._set_square(old_position, Pawn())
 
-    def check_winner(self):
-        pass
+    def check_winner(self, players):
+        for player in players:
+            is_winner = True
+            for position in player.get_opposite_camp().get_coords():
+                if self._get_square(position).get_owner() != player:
+                    is_winner = False
+                    break
+            if is_winner:
+                return player
+        return None

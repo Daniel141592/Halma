@@ -270,3 +270,18 @@ def test__is_further_jump_possible():
     new_position = (3, 3)
     board._move_pawn(old_position, new_position)
     assert board._is_further_jump_possible(old_position, new_position)
+
+
+def test_check_winner():
+    player_1 = Player("white", Corner.TOP_LEFT)
+    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    players = [player_1, player_2]
+    board = Board(players)
+    dumb_squares = [[Pawn()] * BOARD_WIDTH for _ in range(BOARD_WIDTH)]
+    for position in player_1.get_opposite_camp().get_coords():
+        x, y = position
+        dumb_squares[y][x] = Pawn(player_1)
+
+    assert board.check_winner(players) is None
+    board._squares = dumb_squares
+    assert board.check_winner(players) == player_1

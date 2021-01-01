@@ -11,3 +11,4 @@ def test_creating_player():
     assert player.get_name() == name
     assert player.get_color() == color
     assert player.get_camp().get_corner() == corner
+    assert player.get_opposite_camp().get_corner() == Corner.BOTTOM_RIGHT

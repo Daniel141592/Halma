@@ -24,6 +24,7 @@ class GameEngine():
             self._board.make_move(self._now_turn, old_position, new_position)
             if not self.is_cascade_jumps():
                 self._next_turn()
+            self._winner = self._board.check_winner(self._players)
         except IncorrectIndexException as e:
             raise IncorrectMoveException(e.message)
 

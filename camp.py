@@ -8,9 +8,11 @@ class Camp:
     """
     def __init__(self, corner: 'Corner'):
         self._corner = corner
-        self._coords = self._calculate_coords()
 
-    def _calculate_coords(self):
+    def get_corner(self):
+        return self._corner
+
+    def get_coords(self):
         width = CAMP_WIDTH
         coords = []
 
@@ -29,9 +31,3 @@ class Camp:
                 width -= 1
 
         return coords
-
-    def get_corner(self):
-        return self._corner
-
-    def get_coords(self):
-        return self._coords
