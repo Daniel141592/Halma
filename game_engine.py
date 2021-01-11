@@ -1,6 +1,5 @@
 from board import Board
-from player import Player
-from corners import corners_list
+from corners import Corner
 from constants import NUM_OF_PLAYERS, COLORS
 from exceptions import IncorrectIndexException, IncorrectMoveException
 
@@ -11,8 +10,8 @@ class GameEngine():
     """
     Class representing a game
     """
-    def __init__(self, players_names):
-        self._players = self._initialize_players(players_names)
+    def __init__(self, players):
+        self._players = self._initialize_players(players)
         self._board = Board(self._players)
         self._now_turn = random.choice(self._players)
         self._winner = None
@@ -54,11 +53,10 @@ class GameEngine():
     def get_winner(self):
         return self._winner
 
-    def _initialize_players(self, players_names):
-        players = []
-        for color, corner, name in zip(
-              self._colors_shuffle(), self._prepare_corners(), players_names):
-            players.append(Player(color, corner, name))
+    def _initialize_players(self, players):
+        for color, corner, player in zip(
+              self._colors_shuffle(), self._prepare_corners(), players):
+            player.initialize_player(color, corner)
         return players
 
     def _colors_shuffle(self):
@@ -66,4 +64,4 @@ class GameEngine():
         return random_shuffle[0:NUM_OF_PLAYERS]
 
     def _prepare_corners(self):
-        return corners_list[0:NUM_OF_PLAYERS]
+        return list(Corner)[0:NUM_OF_PLAYERS]

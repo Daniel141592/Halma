@@ -1,4 +1,4 @@
-from corners import Corner, opposite_corner
+from corners import Corner
 from camp import Camp
 
 
@@ -6,11 +6,19 @@ class Player:
     """
     Class representing a Player
     """
-    def __init__(self, color, corner: Corner, name=None):
+    def __init__(self, name=None, color=None, corner=None):
+        self._name = name if name is not None else "NoName"
+        self._color = color
+        self._camp = None if corner is None else Camp(corner)
+        if corner is not None:
+            self._opposite_camp = Camp(corner.get_opposite_corner())
+        else:
+            self._opposite_camp = None
+
+    def initialize_player(self, color, corner: Corner):
         self._color = color
         self._camp = Camp(corner)
-        self._opposite_camp = Camp(opposite_corner[corner])
-        self._name = name if name is not None else "NoName"
+        self._opposite_camp = Camp(corner.get_opposite_corner())
 
     def get_name(self):
         return self._name

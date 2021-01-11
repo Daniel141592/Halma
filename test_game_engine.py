@@ -1,12 +1,13 @@
 from game_engine import GameEngine
 from constants import COLORS
-from corners import Corner, corners_list
+from corners import Corner
+from player import Player
 
 
 def test_creating_game_engine():
-    players_names = ["player1", "player2"]
-    game = GameEngine(players_names)
-    assert len(game._players) == len(players_names)
+    players = [Player(), Player()]
+    game = GameEngine(players)
+    assert len(game._players) == len(players)
     assert game.get_now_turn() in game._players
 
 
@@ -17,8 +18,8 @@ def test_make_move(monkeypatch):
                 return player
     monkeypatch.setattr("game_engine.random.choice", mock_choice)
 
-    players_names = ["player1", "player2"]
-    game = GameEngine(players_names)
+    players = [Player(), Player()]
+    game = GameEngine(players)
     player = game.get_now_turn()
     old_position = (4, 0)
     new_position = (5, 0)
@@ -29,25 +30,25 @@ def test_make_move(monkeypatch):
 
 
 def test__initialize_players():
-    players_names = ["playerA", "playerB"]
-    game = GameEngine(players_names)
+    players = [Player("playerA"), Player("playerB")]
+
+    game = GameEngine(players)
     players = game.get_players()
-    assert len(players) == len(players_names)
-    assert players[0].get_name() == players_names[0]
-    assert players[1].get_name() == players_names[1]
+    assert players[0] == players[0]
+    assert players[1] == players[1]
     assert all([player.get_color() in COLORS for player in players])
-    assert all([p.get_camp().get_corner() in corners_list for p in players])
+    assert all([p.get_camp().get_corner() in list(Corner) for p in players])
 
 
 def test__next_turn():
-    game = GameEngine(["playerA", "playerB"])
+    game = GameEngine([Player(), Player()])
     player = game.get_now_turn()
     game._next_turn()
     assert player is not game.get_now_turn()
 
 
 def test__colors_shuffle(monkeypatch):
-    players = ["player1", "player2"]
+    players = [Player("player1"), Player("player2")]
     game = GameEngine(players)
 
     def f(a, b):
@@ -58,7 +59,7 @@ def test__colors_shuffle(monkeypatch):
 
 
 def test__prepare_corners():
-    players = ["player1", "player2"]
+    players = [Player("player1"), Player("player2")]
     game = GameEngine(players)
 
     assert len(game._prepare_corners()) == len(players)

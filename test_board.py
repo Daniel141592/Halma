@@ -9,8 +9,8 @@ import pytest
 
 
 def test_creating_board_and_arrange_pawns():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     players = [player_1, player_2]
     board = Board(players)
 
@@ -28,8 +28,8 @@ def test_creating_board_and_arrange_pawns():
 
 
 def test__get_square():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     x = 2
     y = 3
     board = Board([player_1, player_2])
@@ -37,40 +37,40 @@ def test__get_square():
 
 
 def test__get_square_negative_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     with pytest.raises(IncorrectIndexException):
         board._get_square((-2, 3))
 
 
 def test__get_square_incorrect_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     with pytest.raises(IncorrectIndexException):
         board._get_square((22, 3))
 
 
 def test__get_square_wrong_type_of_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     with pytest.raises(IncorrectIndexException):
         board._get_square((2.6, 3))
 
 
 def test__get_square_wrong_type_of_index_2():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     with pytest.raises(IncorrectIndexException):
         board._get_square(("abc", 3))
 
 
 def test__set_square():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     position = 2, 3
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
@@ -79,8 +79,8 @@ def test__set_square():
 
 
 def test__set_square_negative_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     position = -2, 3
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
@@ -89,8 +89,8 @@ def test__set_square_negative_index():
 
 
 def test__set_square_incorrect_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     position = 2, 33
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
@@ -99,8 +99,8 @@ def test__set_square_incorrect_index():
 
 
 def test__set_square_wrong_type_of_index():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     position = 2, 3.5
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
@@ -109,8 +109,8 @@ def test__set_square_wrong_type_of_index():
 
 
 def test__set_square_wrong_type_of_index_2():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     position = 2, "abc"
     pawn = Pawn(player_1)
     board = Board([player_1, player_2])
@@ -119,8 +119,8 @@ def test__set_square_wrong_type_of_index_2():
 
 
 def test__get_square_between():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     position_a = (2, 2)
     position_b = (4, 4)
@@ -129,8 +129,8 @@ def test__get_square_between():
 
 
 def test__move_pawn():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (5, 0)
@@ -139,8 +139,8 @@ def test__move_pawn():
 
 
 def test_make_move_correct_move():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (5, 1)
@@ -150,8 +150,8 @@ def test_make_move_correct_move():
 
 
 def test_make_move_correct_jump():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (3, 0)
     new_position = (5, 0)
@@ -161,8 +161,8 @@ def test_make_move_correct_jump():
 
 
 def test_make_move_to_the_same_position():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     position = (4, 0)
     with pytest.raises(IncorrectMoveException):
@@ -170,8 +170,8 @@ def test_make_move_to_the_same_position():
 
 
 def test_make_move_from_wrong_position():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (14, 0)
     new_position = (5, 1)
@@ -180,8 +180,8 @@ def test_make_move_from_wrong_position():
 
 
 def test_make_move_to_already_taken_position():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (0, 0)
     new_position = (0, 1)
@@ -190,8 +190,8 @@ def test_make_move_to_already_taken_position():
 
 
 def test_is_jump():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (3, 0)
     new_position = (5, 0)
@@ -199,8 +199,8 @@ def test_is_jump():
 
 
 def test__is_jump_single_move():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (5, 1)
@@ -208,8 +208,8 @@ def test__is_jump_single_move():
 
 
 def test_is_jump_nothing_to_jump_over():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (6, 0)
@@ -218,8 +218,8 @@ def test_is_jump_nothing_to_jump_over():
 
 
 def test_is_jump_incorrect_move():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (4, 0)
     new_position = (8, 1)
@@ -228,8 +228,8 @@ def test_is_jump_incorrect_move():
 
 
 def test_check_cascade_jump_trying_to_move_another_pawn():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     cascade_jumps_position = (7, 7)
     old_position = (3, 0)
@@ -240,8 +240,8 @@ def test_check_cascade_jump_trying_to_move_another_pawn():
 
 
 def test_check_cascade_jump_is_not_a_jump():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     cascade_jumps_position = (7, 7)
     old_position = cascade_jumps_position
@@ -252,8 +252,8 @@ def test_check_cascade_jump_is_not_a_jump():
 
 
 def test__is_further_jump_possible_not_possible():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     old_position = (3, 0)
     new_position = (5, 0)
@@ -262,8 +262,8 @@ def test__is_further_jump_possible_not_possible():
 
 
 def test__is_further_jump_possible():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     board = Board([player_1, player_2])
     board._move_pawn((3, 2), (4, 2))
     old_position = (1, 1)
@@ -273,8 +273,8 @@ def test__is_further_jump_possible():
 
 
 def test_check_winner():
-    player_1 = Player("white", Corner.TOP_LEFT)
-    player_2 = Player("black", Corner.BOTTOM_RIGHT)
+    player_1 = Player("name", "white", Corner.TOP_LEFT)
+    player_2 = Player("name", "black", Corner.BOTTOM_RIGHT)
     players = [player_1, player_2]
     board = Board(players)
     dumb_squares = [[Pawn()] * BOARD_WIDTH for _ in range(BOARD_WIDTH)]

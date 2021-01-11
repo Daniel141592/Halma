@@ -5,7 +5,7 @@ from corners import Corner
 
 def test_creating_pawn():
     color = "black"
-    player = Player(color, Corner.TOP_LEFT)
+    player = Player("name", color, Corner.TOP_LEFT)
     pawn = Pawn(player)
     assert pawn.get_owner() == player
     assert pawn.get_color() == color
@@ -18,13 +18,13 @@ def test_creating_empty_pawn():
 
 
 def test_str_():
-    player = Player("white", Corner.BOTTOM_LEFT, "No name")
+    player = Player("No name", "white", Corner.BOTTOM_LEFT,)
     pawn = Pawn(player)
     assert str(pawn) == "N"
 
 
 def test_repr():
-    player = Player("white", Corner.BOTTOM_LEFT, "some player")
+    player = Player("some player", "white", Corner.BOTTOM_LEFT)
     pawn = Pawn(player)
     assert repr(pawn) == "s"
 
