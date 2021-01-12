@@ -11,14 +11,14 @@ class Player:
         self._color = color
         self._camp = None if corner is None else Camp(corner)
         if corner is not None:
-            self._opposite_camp = Camp(corner.get_opposite_corner())
+            self._opposite_camp = self._camp.get_opposite_camp()
         else:
             self._opposite_camp = None
 
     def initialize_player(self, color, corner: Corner):
         self._color = color
         self._camp = Camp(corner)
-        self._opposite_camp = Camp(corner.get_opposite_corner())
+        self._opposite_camp = self._camp.get_opposite_camp()
 
     def get_name(self):
         return self._name

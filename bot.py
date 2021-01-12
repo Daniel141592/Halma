@@ -63,8 +63,8 @@ class Bot:
 
     def _is_move_reasonable(self, move):
         old_position, new_position = move
-        target_corner = self._player.get_opposite_camp().get_corner()
-        target_position = target_corner.get_extreme_corner_postion()
+        target_camp = self._player.get_opposite_camp()
+        target_position = target_camp.get_extreme_corner_postion()
         if new_position in self._player.get_opposite_camp().get_coords():
             return True
         if self._calculate_distance(new_position, target_position) <= \

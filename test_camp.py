@@ -6,6 +6,8 @@ def test_creating_camp():
     corner = Corner.TOP_LEFT
     camp = Camp(corner)
     assert camp.get_corner() == corner
+    assert camp.get_extreme_corner_postion() == (0, 0)
+    assert camp.get_opposite_camp().get_corner() == Corner.BOTTOM_RIGHT
 
 
 def test_calculating_coords_top_left():
@@ -20,6 +22,8 @@ def test_calculating_coords_top_left():
     ]
     assert len(camp.get_coords()) == 19
     assert camp.get_coords() == expected_coords
+    assert camp.get_extreme_corner_postion() == (0, 0)
+    assert camp.get_opposite_camp().get_corner() == Corner.BOTTOM_RIGHT
 
 
 def test_calculating_coords_top_right():
@@ -34,6 +38,8 @@ def test_calculating_coords_top_right():
     ]
     assert len(camp.get_coords()) == 19
     assert camp.get_coords() == expected_coords
+    assert camp.get_extreme_corner_postion() == (15, 0)
+    assert camp.get_opposite_camp().get_corner() == Corner.BOTTOM_LEFT
 
 
 def test_calculating_coords_bottom_right():
@@ -48,6 +54,8 @@ def test_calculating_coords_bottom_right():
     ]
     assert len(camp.get_coords()) == 19
     assert camp.get_coords() == expected_coords
+    assert camp.get_extreme_corner_postion() == (15, 15)
+    assert camp.get_opposite_camp().get_corner() == Corner.TOP_LEFT
 
 
 def test_calculating_coords_bottom_left():
@@ -62,3 +70,5 @@ def test_calculating_coords_bottom_left():
     ]
     assert len(camp.get_coords()) == 19
     assert camp.get_coords() == expected_coords
+    assert camp.get_extreme_corner_postion() == (0, 15)
+    assert camp.get_opposite_camp().get_corner() == Corner.TOP_RIGHT
