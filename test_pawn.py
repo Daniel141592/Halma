@@ -20,13 +20,12 @@ def test_creating_empty_pawn():
 def test_str_():
     player = Player("No name", "white", Corner.BOTTOM_LEFT,)
     pawn = Pawn(player)
-    assert str(pawn) == "N"
+    assert str(pawn) == '●'
 
 
 def test_repr():
-    player = Player("some player", "white", Corner.BOTTOM_LEFT)
-    pawn = Pawn(player)
-    assert repr(pawn) == "s"
+    pawn = Pawn()
+    assert repr(pawn) == ' '
 
 
 def test_transferred_to_opponent_camp():
