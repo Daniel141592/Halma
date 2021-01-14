@@ -1,9 +1,10 @@
 from player import Player
-from constants import BOARD_WIDTH
+from constants import BOARD_WIDTH, DELAY
 from itertools import product
 
 from random import choice
 from math import hypot
+from time import sleep
 
 
 class Bot:
@@ -12,6 +13,7 @@ class Bot:
         self._last_move = None
 
     def make_move(self, board, cascade_jumps_position):
+        sleep(DELAY)
         is_cascade_jump = cascade_jumps_position is not None
 
         owned_pawns_positions = self._prepare_owned_pawns_positions(board)
@@ -95,4 +97,4 @@ class Bot:
         old_position, new_position = position
         old_x, old_y = old_position
         new_x, new_y = new_position
-        return f"{old_x},{old_y}->{new_x},{new_y}"
+        return f"{old_x + 1},{old_y + 1}->{new_x + 1},{new_y + 1}"

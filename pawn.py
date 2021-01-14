@@ -11,9 +11,7 @@ class Pawn():
         self._is_empty = owner is None
 
     def __str__(self):
-        if self._is_empty:
-            return '_'
-        return self._owner.get_name()[0:1]
+        return ' ' if self._is_empty else '●'
 
     def __repr__(self):
         return self.__str__()

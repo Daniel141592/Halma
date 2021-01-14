@@ -1,0 +1,10 @@
+class ANSI_ESCAPE_CODES:
+    BLACK = '\u001b[30m'
+    YELLOW = '\u001b[33m'
+    WHITE = '\u001b[37m'
+    BLUE = '\u001b[34m'
+    ENDC = '\033[0m'
+    BG_BLACK = '\u001b[40m'
+    BG_MAGENTA = '\u001b[45m'
+    BG_WHITE = '\u001b[47m'
+    BG_CYAN = '\u001b[46m'
