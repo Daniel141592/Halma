@@ -43,8 +43,11 @@ class GameEngine():
     def get_now_turn(self):
         return self._now_turn
 
+    def get_cascade_jumps_position(self):
+        return self._board.get_cascade_jumps_position()
+
     def is_cascade_jumps(self):
-        return self._board.get_cascade_jumps_position() is not None
+        return self.get_cascade_jumps_position() is not None
 
     def end_cascade_jumps(self):
         self._board.set_cascade_jumps_position(None)

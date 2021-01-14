@@ -9,20 +9,29 @@ from math import hypot
 class Bot:
     def __init__(self, player: 'Player'):
         self._player = player
+        self._last_move = None
 
-    def make_move(self, board, is_cascade_jumps):
+    def make_move(self, board, cascade_jumps_position):
+        is_cascade_jump = cascade_jumps_position is not None
+
         owned_pawns_positions = self._prepare_owned_pawns_positions(board)
         potential_moves = []
         for old_pos in owned_pawns_positions:
-            for pos in self._check_possible_standard_moves(board, old_pos):
-                potential_moves.append((old_pos, pos))
-            # for pos in self._check_possible_jumps(board, old_pos):
-            #     potential_moves.append((old_pos, pos))
-
-        move = choice(potential_moves)
-        while not self._is_move_reasonable(move):
-            move = choice(potential_moves)
-        return self._format_move_position(move)
+            if is_cascade_jump and old_pos != cascade_jumps_position:
+                continue
+            for pos in self._check_possible_jumps(board, old_pos):
+                move = old_pos, pos
+                if self._is_move_reasonable(move, is_cascade_jump):
+                    potential_moves.append(move)
+            if not is_cascade_jump:
+                for pos in self._check_possible_standard_moves(board, old_pos):
+                    move = old_pos, pos
+                    if self._is_move_reasonable(move, is_cascade_jump):
+                        potential_moves.append(move)
+        if len(potential_moves) == 0:
+            return 'k'
+        self._last_move = choice(potential_moves)
+        return self._format_move_position(self._last_move)
 
     def _prepare_owned_pawns_positions(self, board):
         owned_pawns = []
@@ -33,42 +42,41 @@ class Bot:
         return owned_pawns
 
     def _check_possible_standard_moves(self, board, position):
-        current_x, current_y = position
-        potential_positions = []
-        for x, y in product((-1, 0, 1), (-1, 0, 1)):
-            if x == y and y == 0:
-                continue
-            if current_x + x not in range(BOARD_WIDTH) or \
-                    current_y + y not in range(BOARD_WIDTH):
-                continue
-            if board[current_y + y][current_x + x].is_empty():
-                potential_positions.append((current_x + x, current_y + y))
-
-        return potential_positions
+        return self._check_possible_moves(board, position, False)
 
     def _check_possible_jumps(self, board, position):
+        return self._check_possible_moves(board, position, True)
+
+    def _check_possible_moves(self, board, position, checking_jumps):
+        unit = 2 if checking_jumps else 1
         current_x, current_y = position
         potential_positions = []
-        for x, y in product((-2, 0, 2), (-2, 0, 2)):
+        for x, y in product((-unit, 0, unit), (-unit, 0, unit)):
             if x == y and y == 0:
                 continue
             if current_x + x not in range(BOARD_WIDTH) or \
                     current_y + y not in range(BOARD_WIDTH):
                 continue
             new_pos = current_x + x, current_y + y
-            if not self._get_pawn_between(board, position, new_pos).is_empty():
+            if self._get_pawn_between(board, position, new_pos).is_empty() \
+                    and checking_jumps:
+                continue
+            if (new_pos, position) == self._last_move:
+                continue
+            if board[current_y + y][current_x + x].is_empty():
                 potential_positions.append(new_pos)
 
         return potential_positions
 
-    def _is_move_reasonable(self, move):
-        old_position, new_position = move
+    def _is_move_reasonable(self, move, is_cascade_jump):
+        old_pos, new_pos = move
         target_camp = self._player.get_opposite_camp()
         target_position = target_camp.get_extreme_corner_postion()
-        if new_position in self._player.get_opposite_camp().get_coords():
+        if new_pos in self._player.get_opposite_camp().get_coords() \
+                and not is_cascade_jump:    # to prevent cyclic moves
             return True
-        if self._calculate_distance(new_position, target_position) <= \
-                self._calculate_distance(old_position, target_position):
+        if self._calculate_distance(new_pos, target_position) <= \
+                self._calculate_distance(old_pos, target_position):
             return True
 
         return False
