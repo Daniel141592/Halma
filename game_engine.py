@@ -9,6 +9,17 @@ import random
 class GameEngine():
     """
     Class representing a game
+
+    Attributes
+
+    players: List[Player]
+        List of Players playing the game
+
+    board: Board
+        Board object representing a board
+
+    now_turn: Player
+        Player who's turn is now
     """
     def __init__(self, players):
         self._players = self._initialize_players(players)

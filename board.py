@@ -9,6 +9,14 @@ from itertools import product
 class Board():
     """
     Class representing a board on which the game is playing
+
+    Attributes
+
+    squares: List[List[Pawn]]
+        List of lists of Pawn objects, actually represents Pawns on board
+
+    cascade_jumps_position: tuple
+        Position of Pawn which is currently performing cascade jumps
     """
     def __init__(self, players):
         self._squares = [[Pawn()] * BOARD_WIDTH for _ in range(BOARD_WIDTH)]

@@ -5,6 +5,20 @@ from camp import Camp
 class Player:
     """
     Class representing a Player
+
+    Attributes
+
+    name: string
+        Name of the Player
+
+    color: string
+        String containing color of Player's pawns
+
+    camp: Camp
+        Object representing Player's camp
+
+    opposite_camp: Camp
+        Object representing camp of Player's opponent
     """
     def __init__(self, name=None, color=None, corner=None):
         self._name = name if name is not None else "NoName"

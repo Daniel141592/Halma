@@ -5,6 +5,14 @@ from constants import CAMP_WIDTH, BOARD_WIDTH
 class Camp:
     """
     Class representing a camp
+
+    Attributes
+
+    corner: Corner
+        Enum object representin a corner
+
+    extreme_corner: tuple
+        Contains position of square in the corner of the camp
     """
     def __init__(self, corner: 'Corner'):
         self._corner = corner

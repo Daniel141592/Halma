@@ -8,6 +8,17 @@ from time import sleep
 
 
 class Bot:
+    """
+    Class representing a bot
+
+    Attributes
+
+    player: Player
+        Player object controlled by the bot
+
+    last_move: tuple
+        Contains positions of last move done by bot
+    """
     def __init__(self, player: 'Player'):
         self._player = player
         self._last_move = None

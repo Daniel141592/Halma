@@ -4,6 +4,19 @@ from player import Player
 class Pawn():
     """
     Class representing a pawn
+
+    Attributes
+
+    owner: Player
+        Player owning the Pawn
+
+    is_transferred_to_opponent_camp: bool
+        Set to true when the Pawn is in opponent camp
+
+    is_empty: bool
+        'empty Pawn' means there is free square at this position
+        Free squares on board are represented by Pawn object with
+        is_empty set to true and owner set to false
     """
     def __init__(self, owner: 'Player' = None):
         self._owner = owner

@@ -7,6 +7,9 @@ from escape_codes import ANSI_ESCAPE_CODES as AEC
 
 
 def main():
+    """
+    Main function called when someone run the game
+    """
     game_mode = None
     while not game_mode:
         game_mode = choose_game_mode()
@@ -28,6 +31,10 @@ def main():
 
 
 def make_move(game, bots, camps_coords):
+    """
+    Function getting input from player/bot and making a move
+    Called in loop unless there is a winner
+    """
     display_board(game.get_board(), camps_coords)
     now_turn = game.get_now_turn()
 
