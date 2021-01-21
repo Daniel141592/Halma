@@ -18,7 +18,9 @@ def main():
     num_of_physical_players, num_of_bots = players_division
 
     players = create_players(num_of_physical_players)
-    bots = create_bots(num_of_bots, players)
+    bots = create_bots(num_of_bots)  # bots is a dictionary, bots[player] = bot
+    for bot in bots:
+        players.append(bot)
 
     game = GameEngine(players)
     camps_coords = get_camps_coords(players)
@@ -26,7 +28,7 @@ def main():
     while game.get_winner() is None:
         make_move(game, bots, camps_coords)
 
-    display_board(game.get_board(), camps_coords)
+    print(generate_board(game.get_board(), camps_coords))
     text = f"Wygrał gracz {game.get_winner().get_name()}"
     colored_print(text, game.get_winner().get_color())
 
@@ -36,7 +38,7 @@ def make_move(game, bots, camps_coords):
     Function getting input from player/bot and making a move
     Called in loop unless there is a winner
     """
-    display_board(game.get_board(), camps_coords)
+    print(generate_board(game.get_board(), camps_coords))
     now_turn = game.get_now_turn()
 
     text = f"Kolej gracza {now_turn.get_name()}"
@@ -71,15 +73,16 @@ def parse_input(move):
     return ((old_x, old_y), (new_x, new_y))
 
 
-def display_board(board, camps_coords):
-    print(horizontal_indices())
+def generate_board(board, camps_coords):
+    result = horizontal_indices()+'\n'
     for row_id, row in enumerate(board):
         row_str = ""
         for column_id, square in enumerate(row):
             color = choose_color(square)
             bg_color = choose_bg_color((column_id, row_id), camps_coords)
             row_str += f"{bg_color}{color}{square} {AEC.ENDC}"
-        print(vertical_indices(row_id)+row_str)
+        result += vertical_indices(row_id)+row_str+'\n'
+    return result
 
 
 def create_players(num_of_physical_players):
@@ -106,11 +109,10 @@ def get_players_division(game_mode):
     return num_of_physical_players, num_of_bots
 
 
-def create_bots(num_of_bots, players):
+def create_bots(num_of_bots):
     bots = dict()
     for i in range(num_of_bots):
         player = Player(f"Bot {i + 1}")
-        players.append(player)
         bots[player] = Bot(player)
     return bots
 
