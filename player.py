@@ -1,4 +1,5 @@
 from corners import Corner
+from color import Color
 from camp import Camp
 
 
@@ -11,8 +12,8 @@ class Player:
     name: string
         Name of the Player
 
-    color: string
-        String containing color of Player's pawns
+    color: Color
+        Enum object representing color of Player's pawns
 
     camp: Camp
         Object representing Player's camp
@@ -20,7 +21,7 @@ class Player:
     opposite_camp: Camp
         Object representing camp of Player's opponent
     """
-    def __init__(self, name=None, color=None, corner=None):
+    def __init__(self, name=None, color: 'Color' = None, corner=None):
         self._name = name if name is not None else "NoName"
         self._color = color
         self._camp = None if corner is None else Camp(corner)
@@ -29,7 +30,7 @@ class Player:
         else:
             self._opposite_camp = None
 
-    def initialize_player(self, color, corner: Corner):
+    def initialize_player(self, color: 'Color', corner: 'Corner'):
         self._color = color
         self._camp = Camp(corner)
         self._opposite_camp = self._camp.get_opposite_camp()

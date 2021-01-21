@@ -1,6 +1,7 @@
 from board import Board
 from corners import Corner
-from constants import NUM_OF_PLAYERS, COLORS
+from color import Color
+from constants import NUM_OF_PLAYERS
 from exceptions import IncorrectIndexException, IncorrectMoveException
 
 import random
@@ -74,7 +75,8 @@ class GameEngine():
         return players
 
     def _colors_shuffle(self):
-        random_shuffle = random.sample(COLORS, len(COLORS))
+        colors = list(Color)
+        random_shuffle = random.sample(colors, len(colors))
         return random_shuffle[0:NUM_OF_PLAYERS]
 
     def _prepare_corners(self):
