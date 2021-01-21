@@ -44,7 +44,7 @@ class Bot:
         if len(potential_moves) == 0:
             return 'k'
         self._last_move = choice(potential_moves)
-        return self._format_move_position(self._last_move)
+        return self._format_move_text(self._last_move)
 
     def _prepare_owned_pawns_positions(self, board):
         owned_pawns = []
@@ -104,8 +104,9 @@ class Bot:
         y = int((a[1] + b[1]) / 2)
         return board[y][x]
 
-    def _format_move_position(self, position):
-        old_position, new_position = position
+    def _format_move_text(self, move):
+        old_position, new_position = move
         old_x, old_y = old_position
         new_x, new_y = new_position
+        # +1 because interface subtracts 1
         return f"{old_x + 1},{old_y + 1}->{new_x + 1},{new_y + 1}"
