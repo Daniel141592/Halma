@@ -1,10 +1,11 @@
 from pawn import Pawn
 from player import Player
 from corners import Corner
+from color import Color
 
 
 def test_creating_pawn():
-    color = "black"
+    color = Color.BLACK
     player = Player("name", color, Corner.TOP_LEFT)
     pawn = Pawn(player)
     assert pawn.get_owner() == player
@@ -18,7 +19,7 @@ def test_creating_empty_pawn():
 
 
 def test_str_():
-    player = Player("No name", "white", Corner.BOTTOM_LEFT,)
+    player = Player("No name", Color.WHITE, Corner.BOTTOM_LEFT,)
     pawn = Pawn(player)
     assert str(pawn) == '●'
 
@@ -29,7 +30,7 @@ def test_repr():
 
 
 def test_transferred_to_opponent_camp():
-    color = "white"
+    color = Color.WHITE
     player = Player(color, Corner.TOP_LEFT)
     pawn = Pawn(player)
 

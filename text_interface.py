@@ -1,6 +1,7 @@
 from game_engine import GameEngine
 from exceptions import IncorrectMoveException
 from constants import BOARD_WIDTH
+from color import Color
 from player import Player
 from bot import Bot
 from escape_codes import ANSI_ESCAPE_CODES as AEC
@@ -115,16 +116,16 @@ def create_bots(num_of_bots, players):
 
 
 def colored_print(text, color):
-    escape_code = AEC.YELLOW if color == "white" else AEC.BLUE
+    escape_code = AEC.YELLOW if color == Color.WHITE else AEC.BLUE
     print(escape_code+text+AEC.ENDC)
 
 
 def choose_color(square):
     if not square.is_empty():
         # blue and yellow instead of black/white for better visibility
-        if square.get_color() == 'black':
+        if square.get_color() == Color.BLACK:
             color = AEC.BLUE
-        elif square.get_color() == 'white':
+        elif square.get_color() == Color.WHITE:
             color = AEC.YELLOW
     else:
         color = AEC.WHITE

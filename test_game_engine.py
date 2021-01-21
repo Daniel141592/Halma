@@ -1,6 +1,6 @@
 from game_engine import GameEngine
-from constants import COLORS
 from corners import Corner
+from color import Color
 from player import Player
 
 
@@ -36,7 +36,7 @@ def test__initialize_players():
     players = game.get_players()
     assert players[0] == players[0]
     assert players[1] == players[1]
-    assert all([player.get_color() in COLORS for player in players])
+    assert all([player.get_color() in list(Color) for player in players])
     assert all([p.get_camp().get_corner() in list(Corner) for p in players])
 
 
@@ -52,10 +52,10 @@ def test__colors_shuffle(monkeypatch):
     game = GameEngine(players)
 
     def f(a, b):
-        return COLORS
+        return list(Color)
     monkeypatch.setattr("game_engine.random.sample", f)
     assert len(game._colors_shuffle()) == len(players)
-    assert game._colors_shuffle() == COLORS
+    assert game._colors_shuffle() == list(Color)
 
 
 def test__prepare_corners():

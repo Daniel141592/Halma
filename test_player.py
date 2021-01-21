@@ -1,9 +1,10 @@
 from player import Player
 from corners import Corner
+from color import Color
 
 
 def test_creating_player():
-    color = "white"
+    color = Color.WHITE
     corner = Corner.TOP_LEFT
     name = "Player 1"
     player = Player(name, color, corner)
@@ -23,7 +24,7 @@ def test_creating_empty_player():
 
 
 def test_initialize_player():
-    color = "white"
+    color = Color.WHITE
     corner = Corner.TOP_LEFT
     name = "Player 1"
     player = Player(name)
