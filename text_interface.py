@@ -52,7 +52,7 @@ def make_move(game, bots, camps_coords):
                           game.get_cascade_jumps_position())
         else:
             user_input = input()
-        if game.is_cascade_jumps() and user_input.strip() == 'k':
+        if game.is_cascade_jumps() and user_input.strip().lower() == 'k':
             game.end_cascade_jumps()
         else:
             old_position, new_position = parse_input(user_input)
